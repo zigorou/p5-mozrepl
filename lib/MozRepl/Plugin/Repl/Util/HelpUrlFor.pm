@@ -77,7 +77,11 @@ sub execute {
     my ($self, $ctx, $args) = @_;
 
     my $cmd = $self->process('execute', { repl => $ctx->repl, source => $args->{source} });
-    return "" . $ctx->execute($cmd);
+    my $ret = $ctx->execute($cmd);
+
+    $ret =~ s/^"//;
+    $ret =~ s/"$//;
+    return $ret;
 }
 
 =head2 method_name()

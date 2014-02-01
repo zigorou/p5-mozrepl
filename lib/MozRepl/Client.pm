@@ -105,7 +105,7 @@ sub prompt {
 sub quit {
     my ($self, $ctx, $args) = @_;
     ### logging
-    $self->telnet->quit;
+    $self->telnet->close;
 }
 
 1;

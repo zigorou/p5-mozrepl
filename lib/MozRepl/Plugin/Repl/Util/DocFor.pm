@@ -5,6 +5,8 @@ use warnings;
 
 use base qw(MozRepl::Plugin::Base);
 
+use JSON;
+
 =head1 NAME
 
 MozRepl::Plugin::Repl::Util::DocFor - Variable information.
@@ -75,7 +77,7 @@ sub execute {
     my $result = {};
 
     for my $line (@response) {
-        my ($key, $value) = ($line =~ /^(TYPE|NAME|NODENAME|ARGS): (.*)/);
+        my ($key, $value) = ($line =~ /^"?(TYPE|NAME|NODENAME|ARGS): (.*)"?$/);
 
         if ($key) {
             $key = lc($key);

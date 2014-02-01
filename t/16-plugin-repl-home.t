@@ -9,5 +9,5 @@ SKIP: {
     skip( "MozRepl is not started or MozLab is not installed.", 2 ) if ($@);
 
     ok( $repl->can('repl_home') );
-    is($repl->repl_home, "[object ChromeWindow]");
+    like($repl->repl_home, qr/^\[object ChromeWindow\]/);
 }

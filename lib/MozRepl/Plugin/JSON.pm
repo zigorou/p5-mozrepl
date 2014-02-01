@@ -5,7 +5,7 @@ use warnings;
 
 use base qw(MozRepl::Plugin::Base);
 
-use Carp::Clan qw(croak);
+use Carp qw(croak);
 
 =head1 NAME
 
@@ -83,7 +83,10 @@ sub execute {
         croak($result[$#result - 1]);
     }
 
-    return join("", @result);
+    my $ret = join("", @result);
+    $ret =~ s/^"//;
+    $ret =~ s/"$//;
+    return $ret;
 }
 
 =head1 SEE ALSO
@@ -126,7 +129,7 @@ under the same terms as Perl itself.
 
 __DATA__
 __execute__
-JSONstring.make([% source %]);
+JSON.stringify([% source %]);
 __setup__
 JSONstring={compactOutput:false,includeProtos:false,includeFunctions:false,detectCirculars:true,restoreCirculars:true,make:function(arg,restore){this.restore=restore;this.mem=[];this.pathMem=[];return this.toJsonStringArray(arg).join('');},toObject:function(x){eval("this.myObj="+x);if(!this.restoreCirculars||!alert){return this.myObj};this.restoreCode=[];this.make(this.myObj,true);var r=this.restoreCode.join(";")+";";eval('r=r.replace(/\\W([0-9]{1,})(\\W)/g,"[$1]$2").replace(/\\.\\;/g,";")');eval(r);return this.myObj},toJsonStringArray:function(arg,out){if(!out){this.path=[]};out=out||[];var u;switch(typeof arg){case'object':this.lastObj=arg;if(this.detectCirculars){var m=this.mem;var n=this.pathMem;for(var i=0;i<m.length;i++){if(arg===m[i]){out.push('"JSONcircRef:'+n[i]+'"');return out}};m.push(arg);n.push(this.path.join("."));};if(arg){if(arg.constructor==Array){out.push('[');for(var i=0;i<arg.length;++i){this.path.push(i);if(i>0)
 out.push(',\n');this.toJsonStringArray(arg[i],out);this.path.pop();}
