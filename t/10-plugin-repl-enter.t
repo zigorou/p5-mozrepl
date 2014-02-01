@@ -8,9 +8,7 @@ SKIP: {
 
     skip( "MozRepl is not started or MozLab is not installed." . $@, 3 ) if ($@);
 
-    ok( $repl->can('repl_enter') );
-    is( $repl->repl_enter( { source => 'window' } ),
-        '[object ChromeWindow]' );
-    is( $repl->repl_enter( { source => 'document' } ),
-        '[object XULDocument]' );
+    ok($repl->can('repl_enter'));
+    like($repl->repl_enter( { source => 'window' } ), qr/^\[object ChromeWindow\]/);
+    like($repl->repl_enter( { source => 'document' } ),qr/^\[object XULDocument\]/);
 }
